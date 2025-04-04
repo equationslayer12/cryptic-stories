@@ -1,0 +1,261 @@
+@use 'sass:color';
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tooltipShow {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.container {
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 1rem;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+.heroTitle {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: $text-dark;
+
+  @media (min-width: 768px) {
+    font-size: 4rem;
+    line-height: 1;
+  }
+}
+
+.heroDescription {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: $text-medium;
+  margin-bottom: 2rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+.ctaContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem; // gap-4
+  margin-bottom: 3rem; // mb-12
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 2rem; // px-8 py-3
+  font-weight: 600;
+  border-radius: $border-radius;
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out,
+    color 200ms ease-in-out;
+  cursor: pointer;
+  text-decoration: none; // For Links styled as buttons
+  border: 1px solid transparent; // Base border
+
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); // focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 (approx)
+  }
+}
+
+.buttonPrimary {
+  background-color: $primary-color;
+  color: $text-light;
+  box-shadow: $shadow-md;
+
+  &:hover {
+    background-color: color.adjust($primary-color, $lightness: 10%);
+  }
+}
+
+.buttonSecondary {
+  background-color: $background-light;
+  color: $primary-color;
+  border-color: $primary-color;
+  box-shadow: $shadow-md;
+
+  &:hover {
+    background-color: color.adjust($secondary-color, $lightness: 5%);
+  }
+}
+
+.buttonTertiary {
+  background-color: #e5e7eb; // Gray-200
+  color: #374151; // Gray-700
+  border-color: #e5e7eb;
+
+  &:hover {
+    background-color: #d1d5db; // Gray-300
+  }
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem; // w-8
+  height: 2rem; // h-8
+  border-radius: 9999px; // rounded-full
+  border: none;
+  background-color: transparent;
+  color: $text-medium;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+
+  &:hover {
+    background-color: #e5e7eb; // Gray-200
+  }
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.6); // focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 (approx)
+  }
+}
+
+.dialogOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  &[data-state='open'] {
+    animation: fadeIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.dialogContent {
+  background-color: $background-light;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  padding: 1.5rem;
+  &:focus {
+    outline: none;
+  }
+
+  &[data-state='open'] {
+    animation: scaleIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .iconButton {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+}
+
+.dialogTitle {
+  margin: 0 0 0.75rem 0;
+  color: $text-dark;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.dialogDescription {
+  margin: 0 0 1.25rem 0;
+  color: $text-medium;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.tooltipTrigger {
+  background-color: $secondary-color;
+  color: $primary-color;
+  &:hover {
+    background-color: color.adjust($secondary-color, $lightness: -5%);
+  }
+}
+
+.tooltipContent {
+  border-radius: $border-radius;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: $text-light;
+  background-color: #111827;
+  box-shadow: $shadow-md;
+  user-select: none;
+
+  &[data-state='delayed-open'],
+  &[data-state='instant-open'] {
+    animation: tooltipShow 100ms ease-out;
+  }
+}
+
+.tooltipArrow {
+  fill: #111827;
+}
+
+.showcaseSection {
+  margin-top: 4rem;
+  padding: 1.5rem;
+  border: 1px dashed $border-color;
+  border-radius: $border-radius;
+  background-color: rgba(249, 250, 251, 0.5);
+}
+
+.showcaseTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: $text-dark;
+}
+
+.showcaseDescription {
+  color: $text-medium;
+  margin-bottom: 1rem;
+}
