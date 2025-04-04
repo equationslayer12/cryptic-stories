@@ -16,7 +16,7 @@ function HomePage() {
 
       <div className={styles.ctaContainer}>
         <Link
-          to='/story'
+          to='./story'
           className={`${styles.button} ${styles.buttonPrimary}`}
         >
           Read Our Story
