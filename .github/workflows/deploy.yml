@@ -1,30 +1,19 @@
-name: Deploy
+name: Build and Deploy to gh-pages
 
 on:
   push:
-    branches: ['main']
-
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+    branches:
+      - main
 
 jobs:
-  build:
-    name: Build
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout main
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -35,33 +24,22 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Print index.html
-        run: cat ./dist/index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload production-ready build files
-        uses: actions/upload-artifact@v4
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
         with:
-          name: production-files
-          path: ./dist
+          ref: gh-pages
+          path: gh-pages
 
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+      - name: Copy build output
+        run: |
+          rm -rf gh-pages/*
+          cp -r dist/* gh-pages/
 
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: production-files
-          path: ./dist
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+      - name: Commit and push changes
+        run: |
+          cd gh-pages
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "Deploy to gh-pages" || true
+          git push origin gh-pages

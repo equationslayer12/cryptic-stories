@@ -8,7 +8,7 @@ import styles from './HomePage.module.scss';
 function HomePage() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.heroTitle}>Welcome to Our Awesome App</h1>
+      <h1 className={styles.heroTitle}>Welcome to Our Awesome App (test)</h1>
       <p className={styles.heroDescription}>
         Discover amazing stories and interactive content. Built with modern
         tools like Vite, React, Radix UI, and SCSS.
