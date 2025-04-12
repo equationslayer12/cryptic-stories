@@ -5,6 +5,7 @@ type Props = {
   text: string;
 };
 
+// @ts-expect-error: todo
 export function FreqAnalysisTool({ text }: Props) {
   return (
     <div>

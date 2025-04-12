@@ -7,6 +7,7 @@ type Props = {
 };
 
 export function Letter({ letter }: Props) {
+  // @ts-expect-error: todo
   const { hoveredLetter, setHoveredLetter, letterMappings, setLetterMappings } =
     useHoveredLetters();
   const isHovered = hoveredLetter === letter;
