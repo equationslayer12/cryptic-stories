@@ -1,6 +1,6 @@
 import { useHoveredLetters } from './lettersContext';
 import styles from './Letter.module.scss';
-import cx from 'classNames';
+import cx from 'classnames';
 
 type Props = {
   letter: string;
