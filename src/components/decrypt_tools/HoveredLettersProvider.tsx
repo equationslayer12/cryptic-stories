@@ -7,7 +7,7 @@ import {
 export const HoveredLettersProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [letterMappings, setLetterMappings] = useState<Record<string, boolean>>(
+  const [letterMappings, setLetterMappings] = useState<Record<string, string>>(
     {}
   );
   const [hoveredLetter, setHoveredLetter] = useState<string>('');

@@ -3,7 +3,7 @@ import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 export interface HoveredLettersContextType {
   hoveredLetter: string;
   setHoveredLetter: Dispatch<SetStateAction<string>>;
-  letterMappings: Record<string, boolean>;
+  letterMappings: Record<string, string>;
   setLetterMappings: Dispatch<SetStateAction<Record<string, string>>>;
 }
 
