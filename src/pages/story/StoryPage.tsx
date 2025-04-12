@@ -1,3 +1,4 @@
+import { FreqAnalysisTool } from '../../components/story/FreqAnalysisTool';
 import { getStories } from '../../stories/stories';
 
 function StoryPage() {
@@ -9,6 +10,7 @@ function StoryPage() {
   return (
     <div>
       <h1>Welcome to the Story Page!</h1>
+      <FreqAnalysisTool text={storyContent} />
     </div>
   );
 }
