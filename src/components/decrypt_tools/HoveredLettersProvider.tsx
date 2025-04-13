@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   HoveredLettersContext,
   HoveredLettersContextType,
@@ -12,38 +12,46 @@ export const HoveredLettersProvider: React.FC<{
   );
   const [hoveredLetter, setHoveredLetter] = useState<string>('');
 
-  const value: HoveredLettersContextType = {
+  const handleKeyUp = useCallback(
+    (event: KeyboardEvent) => {
+      if (!hoveredLetter) return;
+
+      let newLetter = '';
+      if (event.key === 'Backspace') {
+        newLetter = '';
+      } else if (event.key.length === 1 && event.key !== ' ') {
+        newLetter = event.key.toLowerCase();
+      } else {
+        return;
+      }
+
+      setLetterMappings((prev) => ({
+        ...prev,
+        [hoveredLetter]: newLetter,
+      }));
+    },
+    [hoveredLetter]
+  );
+
+  useEffect(() => {
+    if (!hoveredLetter) return;
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [hoveredLetter, handleKeyUp]);
+
+  const contextValue: HoveredLettersContextType = {
     hoveredLetter,
     setHoveredLetter,
     letterMappings,
     setLetterMappings,
   };
 
-  useEffect(() => {
-    const handleKeyUp = (event: KeyboardEvent) => {
-      let newLetter = '';
-      if (event.key === 'Backspace') {
-        newLetter = '';
-      } else if (event.key.length === 1) {
-        newLetter = event.key.toLowerCase();
-      }
-      if (newLetter === ' ') {
-        return;
-      }
-
-      setLetterMappings({ ...letterMappings, [hoveredLetter]: newLetter });
-    };
-
-    if (hoveredLetter) {
-      document.addEventListener('keyup', handleKeyUp);
-    }
-
-    return () => {
-      document.removeEventListener('keyup', handleKeyUp);
-    };
-  }, [hoveredLetter, letterMappings]);
-
   return (
-    <HoveredLettersContext value={value}>{children}</HoveredLettersContext>
+    <HoveredLettersContext value={contextValue}>
+      {children}
+    </HoveredLettersContext>
   );
 };
