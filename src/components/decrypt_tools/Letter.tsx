@@ -7,10 +7,10 @@ type Props = {
 };
 
 export function Letter({ letter }: Props) {
-  // @ts-expect-error: todo
-  const { hoveredLetter, setHoveredLetter, letterMappings, setLetterMappings } =
+  const { hoveredLetter, setHoveredLetter, letterMappings } =
     useHoveredLetters();
   const isHovered = hoveredLetter === letter;
+
   return (
     <span
       className={cx({ [styles.hovered]: isHovered })}
@@ -21,7 +21,7 @@ export function Letter({ letter }: Props) {
         setHoveredLetter('');
       }}
     >
-      {letter}
+      {letterMappings[letter] || letter}
     </span>
   );
 }
