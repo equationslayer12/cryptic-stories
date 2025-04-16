@@ -5,6 +5,8 @@ export interface HoveredLettersContextType {
   setHoveredLetter: Dispatch<SetStateAction<string>>;
   letterMappings: Record<string, string>;
   setLetterMappings: Dispatch<SetStateAction<Record<string, string>>>;
+  showMobileInput: boolean;
+  setShowMobileInput: Dispatch<SetStateAction<boolean>>;
 }
 
 export const HoveredLettersContext = createContext<

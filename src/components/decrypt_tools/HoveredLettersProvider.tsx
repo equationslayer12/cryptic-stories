@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   HoveredLettersContext,
   HoveredLettersContextType,
 } from './lettersContext';
+import styles from './HoveredLeterrsProvider.module.scss';
+import { isMobile } from 'react-device-detect';
 
 export const HoveredLettersProvider: React.FC<{
   children: React.ReactNode;
@@ -11,6 +13,10 @@ export const HoveredLettersProvider: React.FC<{
     {}
   );
   const [hoveredLetter, setHoveredLetter] = useState<string>('');
+
+  const [showMobileInput, setShowMobileInput] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleKeyUp = useCallback(
     (event: KeyboardEvent) => {
@@ -42,16 +48,37 @@ export const HoveredLettersProvider: React.FC<{
     };
   }, [hoveredLetter, handleKeyUp]);
 
+  useEffect(() => {
+    if (isMobile && showMobileInput) {
+      inputRef.current?.focus();
+    }
+  }, [showMobileInput]);
+
   const contextValue: HoveredLettersContextType = {
     hoveredLetter,
     setHoveredLetter,
     letterMappings,
     setLetterMappings,
+    showMobileInput,
+    setShowMobileInput,
   };
 
   return (
     <HoveredLettersContext value={contextValue}>
       {children}
+      {showMobileInput && (
+        <>
+          <input
+            type='text'
+            ref={inputRef}
+            className={styles.hiddenInput}
+            onBlur={() => setShowMobileInput(false)}
+            autoComplete={'off'}
+            autoCorrect={'off'}
+            autoCapitalize={'off'}
+          />
+        </>
+      )}
     </HoveredLettersContext>
   );
 };
